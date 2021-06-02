@@ -21,10 +21,10 @@ special_user = 417772375199711242
 def fetch_insults():
     temp = []
     con = psycopg2.connect(
-        user=str(os.getenv(DATABASE_USER)),
-        password=str(os.getenv(DATABASE_PASSWORD)),
-        host=str(os.getenv(DATABASE_HOST)),
-        database=str(os.getenv(DATABASE_ID))
+        user=os.getenv('DATABASE_USER)',
+        password=os.getenv('DATABASE_PASSWORD'),
+        host=os.getenv('DATABASE_HOST'),
+        database=os.getenv('DATABASE_ID')
     )
     cur = con.cursor()
     cur.execute(read_query())
