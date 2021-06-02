@@ -12,7 +12,6 @@ from discord.ext import commands
 import youtube_dl
 import psycopg2
 from queries import *
-from environmentvar import *
 
 coin = [':disguised_face:', ':peach:']
 
