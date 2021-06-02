@@ -10,19 +10,57 @@ import re
 import os
 from discord.ext import commands
 import youtube_dl
+import psycopg2
+from queries import *
+from environmentvar import *
 
 coin = [':disguised_face:', ':peach:']
 
 special_user = 417772375199711242
 
+#grabs insults from database
+def fetch_insults():
+    temp = []
+    con = psycopg2.connect(
+        user=os.getenv(DATABASE_USER),
+        password=os.getenv(DATABASE_PASSWORD),
+        host=os.getenv(DATABASE_HOST),
+        database=os.getenv(DATABASE_ID)
+    )
+    cur = con.cursor()
+    cur.execute(read_query())
+    raw_insults = cur.fetchall()
+    for _ in raw_insults:
+        temp.append(''.join(_[0]))
+    cur.close()
+    con.close()
+    return temp
 
-# def update_insults(insult):
-#     if 'insults' in db.keys():
-#         insults = db['insults']
-#         insults.append(insult)
-#         db['insults'] = insults
-#     else:
-#         db['insults'] = [insult]
+def update_insults(insult):
+    '''
+    ??????????????????????????????????????????????????????????????????????????????????????????
+    ??????????????????????????????????????????????????????????????????????????????????????????
+    '''
+    con = psycopg2.connect(
+        user=os.getenv(DATABASE_USER),
+        password=os.getenv(DATABASE_PASSWORD),
+        host=os.getenv(DATABASE_HOST),
+        database=os.getenv(DATABASE_ID)
+    )
+    cur = con.cursor()
+    insults = options
+    insults.append(insult)
+    cur.execute(create_row_query(insult))
+    cur.close()
+    con.commit()
+    con.close()
+    return
+    # if 'insults' in db.keys():
+    #     insults = db['insults']
+    #     insults.append(insult)
+    #     db['insults'] = insults
+    # else:
+    #     db['insults'] = [insult]
 
 
 #default instuls
@@ -45,12 +83,7 @@ client = commands.Bot(command_prefix='?', intents = discord.Intents.all())
 async def on_ready():
     print(f'logged on as {client.user}!')
 
-
-##updates insults list
-# options = starter_insults
-# if 'insults' in db.keys():
-#     if len(db['insults']) > 0:
-#         options = options + db['insults'].value
+options = fetch_insults()
 
 
 #message check features
@@ -113,35 +146,35 @@ async def messages(ctx):
 #           await voiceChannel.disconnect()
 #       os.chdir(os.getenv('main_path'))
 
-#bully command
-# @client.command(name='bully', help='Bullys user mentioned after command.')
-# async def bully(ctx, message):
-#     await ctx.send(f'{re.findall("<.*>", message)[0]} ' +
-#                    random.choice(options))
+# bully command
+@client.command(name='bully', help='Bully the user mentioned after command.')
+async def bully(ctx, message):
+    await ctx.send(f'{re.findall("<.*>", message)[0]} ' +
+                   random.choice(options))
 
 
 #list insults
-# @client.command(name='list_insults',
-#                 help='Lists available insults. 1 through 7 are immutable.')
-# async def list_insults(ctx):
-#     text_message = ''
-#     index = 1
-#     await ctx.send('Insults')
-#     for i in range(0, len(options)):
-#         text_message = text_message + str(index) + '. ' + options[i] + '\n'
-#         index += 1
-#     text_message += 'end'
-#     await ctx.send(text_message)
-#     del text_message
+@client.command(name='list_insults',
+                help='Lists available insults.')
+async def list_insults(ctx):
+    text_message = ''
+    index = 1
+    await ctx.send('Insults')
+    for i in range(0, len(options)):
+        text_message = text_message + str(index) + '. ' + options[i] + '\n'
+        index += 1
+    text_message += 'end'
+    await ctx.send(text_message)
+    del text_message
 
 
 #adds insult to database
-# @client.command(name='add', help='Adds given insult to the database.')
-# async def add(ctx, message):
-#     insult = ctx.message.content.lower().split('|add ')[1]
-#     update_insults(insult)
-#     await ctx.send(insult)
-#     await ctx.send(f'added {insult} to the list of insults...')
+@client.command(name='add', help='Adds given insult to the database.')
+async def add(ctx, message):
+    insult = "'" + ctx.message.content.lower().split('?add ')[1] + "'"
+    update_insults(insult)
+    await ctx.send(insult)
+    await ctx.send(f'added {insult} to the list of insults...')
 
 
 #deletes insult from list
@@ -310,4 +343,5 @@ async def test(ctx):
 #   os.chdir(os.getenv('main_path'))
 
 
-client.run(os.getenv('DISCORD_TOKEN'))
+# client.run(os.getenv('DISCORD_TOKEN'))
+client.run('ODI1NjA5OTE1ODAzODkzNzYx.YGAbJw.L92AHPdrUL8nFKW31taB1M1RSnI')
