@@ -21,14 +21,14 @@ special_user = 417772375199711242
 def fetch_insults():
     temp = []
     con = psycopg2.connect(
-        # user=os.getenv('DATABASE_USER)',
-        # password=os.getenv('DATABASE_PASSWORD'),
-        # host=os.getenv('DATABASE_HOST'),
-        # database=os.getenv('DATABASE_ID')
-        user='dtetnhxnwrnrru',
-        password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
-        host='ec2-34-233-0-64.compute-1.amazonaws.com',
-        database='d57csqtn19p4gm'
+        user=os.getenv('DATABASE_USER)',
+        password=os.getenv('DATABASE_PASSWORD'),
+        host=os.getenv('DATABASE_HOST'),
+        database=os.getenv('DATABASE_ID')
+        # user='dtetnhxnwrnrru',
+        # password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
+        # host='ec2-34-233-0-64.compute-1.amazonaws.com',
+        # database='d57csqtn19p4gm'
     )
     cur = con.cursor()
     cur.execute(read_query())
@@ -45,14 +45,14 @@ def update_insults(insult):
     ??????????????????????????????????????????????????????????????????????????????????????????
     '''
     con = psycopg2.connect(
-        # user=os.getenv('DATABASE_USER'),
-        # password=os.getenv('DATABASE_PASSWORD'),
-        # host=os.getenv('DATABASE_HOST'),
-        # database=os.getenv('DATABASE_ID')
-        user='dtetnhxnwrnrru',
-        password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
-        host='ec2-34-233-0-64.compute-1.amazonaws.com',
-        database='d57csqtn19p4gm'
+        user=os.getenv('DATABASE_USER'),
+        password=os.getenv('DATABASE_PASSWORD'),
+        host=os.getenv('DATABASE_HOST'),
+        database=os.getenv('DATABASE_ID')
+        # user='dtetnhxnwrnrru',
+        # password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
+        # host='ec2-34-233-0-64.compute-1.amazonaws.com',
+        # database='d57csqtn19p4gm'
     )
     cur = con.cursor()
     insults = options
