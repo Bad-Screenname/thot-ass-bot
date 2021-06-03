@@ -17,60 +17,7 @@ coin = [':disguised_face:', ':peach:']
 
 special_user = 417772375199711242
 
-#grabs insults from database
-def fetch_insults():
-    temp = []
-    con = psycopg2.connect(
-        user=os.getenv('DATABASE_USER'),
-        password=os.getenv('DATABASE_PASSWORD'),
-        host=os.getenv('DATABASE_HOST'),
-        database=os.getenv('DATABASE_ID')
-        # user='dtetnhxnwrnrru',
-        # password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
-        # host='ec2-34-233-0-64.compute-1.amazonaws.com',
-        # database='d57csqtn19p4gm'
-    )
-    cur = con.cursor()
-    cur.execute(read_query())
-    raw_insults = cur.fetchall()
-    for _ in raw_insults:
-        temp.append(''.join(_[0]))
-    cur.close()
-    con.close()
-    return temp
-
-def update_insults(insult):
-    '''
-    ??????????????????????????????????????????????????????????????????????????????????????????
-    ??????????????????????????????????????????????????????????????????????????????????????????
-    '''
-    con = psycopg2.connect(
-        user=os.getenv('DATABASE_USER'),
-        password=os.getenv('DATABASE_PASSWORD'),
-        host=os.getenv('DATABASE_HOST'),
-        database=os.getenv('DATABASE_ID')
-        # user='dtetnhxnwrnrru',
-        # password='bbbb1cdbd2b35e797789dac9a3cd1979abf6b9e821a381d04ff4d82ac54e5f1c',
-        # host='ec2-34-233-0-64.compute-1.amazonaws.com',
-        # database='d57csqtn19p4gm'
-    )
-    cur = con.cursor()
-    insults = options
-    insults.append(insult)
-    cur.execute(create_row_query(insult))
-    cur.close()
-    con.commit()
-    con.close()
-    return
-    # if 'insults' in db.keys():
-    #     insults = db['insults']
-    #     insults.append(insult)
-    #     db['insults'] = insults
-    # else:
-    #     db['insults'] = [insult]
-
-
-#default instuls
+#default insultls
 # starter_insults = [
 #     'eats cat shit.',
 #     'is more disappointing than an unsalted pretzel.',
@@ -82,16 +29,13 @@ def update_insults(insult):
 #     'is a troggy.',
 # ]
 
-client = commands.Bot(command_prefix='?', intents = discord.Intents.all())
+client = commands.Bot(command_prefix='.', intents = discord.Intents.all())
 
 
 #bot ready confirmation
 @client.event
 async def on_ready():
     print(f'logged on as {client.user}!')
-
-options = fetch_insults()
-
 
 #message check features
 @client.listen('on_message')
@@ -152,61 +96,6 @@ async def messages(ctx):
 #       if voiceChannel.is_connected():
 #           await voiceChannel.disconnect()
 #       os.chdir(os.getenv('main_path'))
-
-# bully command
-@client.command(name='bully', help='Bully the user mentioned after command.')
-async def bully(ctx, message):
-    await ctx.send(f'{re.findall("<.*>", message)[0]} ' +
-                   random.choice(options))
-
-
-#list insults
-@client.command(name='list_insults',
-                help='Lists available insults.')
-async def list_insults(ctx):
-    text_message = ''
-    index = 1
-    await ctx.send('Insults')
-    for i in range(0, len(options)):
-        text_message = text_message + str(index) + '. ' + options[i] + '\n'
-        index += 1
-    text_message += 'end'
-    await ctx.send(text_message)
-    del text_message
-
-
-#adds insult to database
-@client.command(name='add', help='Adds given insult to the database.')
-async def add(ctx, message):
-    insult = "'" + ctx.message.content.lower().split('?add ')[1] + "'"
-    update_insults(insult)
-    await ctx.send(insult)
-    await ctx.send(f'added {insult} to the list of insults...')
-
-
-#deletes insult from list
-# @client.command(name='delete',
-#                 help='***list_insult first*** Deletes insult from list.')
-# async def delete(ctx, message):
-#     insults = []
-#     if 'insults' in db.keys():
-#         index = int(message)
-#         print(index)
-#         del db['insults'][index - 8]
-#         insults = db['insults'].value
-#         await ctx.send(insults)
-
-
-#bitch calculation command
-@client.command(name='hmb', help='Calculates how much bitch someone is.')
-async def hmb(ctx, message):
-    print(message)
-    percentage = random.randint(0, 101)
-    if percentage >= 95:
-        percentage = random.randint(95, 151)
-    await ctx.send(
-        re.findall('<.*>', message)[0] + f' is {percentage}% bitch...')
-
 
 #play
 # @client.command()
@@ -281,21 +170,10 @@ async def hmb(ctx, message):
 #         await voice.disconnect()
 
 
-#coin flip
-@client.command(name='coin', help='Flip a coin')
-async def flip(ctx):
-    await ctx.send(random.choice(coin))
-
-
-#d20
-@client.command(name='d20', help='Roll a d20')
-async def roll(ctx):
-    await ctx.send(random.randint(1, 20))
-
-@client.command()
-async def test(ctx):
-  # print(re.findall('<.*>', ctx.author))
-  print(re.findall('<.*>', ctx.message.content))
+# @client.command()
+# async def test(ctx):
+#   # print(re.findall('<.*>', ctx.author))
+#   print(re.findall('<.*>', ctx.message.content))
 
 #thornberry
 # @client.command()
@@ -349,6 +227,29 @@ async def test(ctx):
 #       await voice.disconnect()
 #   os.chdir(os.getenv('main_path'))
 
+@client.command(hidden=True)
+async def load(ctx, extension):
+    client.load_extension(f'cogs.{extension}')
 
-# client.run(os.getenv('DISCORD_TOKEN'))
-client.run('ODI1NjA5OTE1ODAzODkzNzYx.YGAbJw.L92AHPdrUL8nFKW31taB1M1RSnI')
+@client.command(hidden=True)
+async def unload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
+
+@client.command(hidden=True)
+async def reload(ctx):
+    for file in os.listdir('./cogs'):
+        if file.endswith('.py'):
+            try:
+                client.unload_extension(f'cogs.{file[:-3]}')
+                client.load_extension(f'cogs.{file[:-3]}')
+            except:
+                await ctx.send(f'An error occured... a {file} not reloaded...')
+    await ctx.send('Cogs reloaded')
+        
+
+
+for file in os.listdir('./cogs'):
+    if file.endswith('.py'):
+        client.load_extension(f'cogs.{file[:-3]}')
+
+client.run(os.getenv('DISCORD_TOKEN'))
