@@ -69,9 +69,12 @@ async def messages(ctx):
                     await ctx.channel.send('nice')
 
     #bandaid for new command prefix change UPDATE when you implement cog listeners
-    if 'hmb' or 'bully' or 'add' or 'delete' or 'list' or 'coin' or 'd20' or 'help' in ctx.content.lower():
-        await ctx.channel.send('''just a friendly reminder that "." is the command prefix!
-if you need further help just use .help.''')
+    if ctx.author != client.user:
+        if 'hmb' or 'bully' or 'add' or 'delete' or 'list' or 'coin' or 'd20' or 'help' in ctx.content.lower():
+            await ctx.channel.send('''just a friendly reminder that "." is the command prefix!
+    if you need further help just use .help.''')
+    else:
+        pass
 
     #checks if user says fuck you
     if ctx.content.lower().startswith('fuck you'):
