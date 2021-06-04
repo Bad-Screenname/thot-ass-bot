@@ -9,8 +9,11 @@ class Bully(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.options = self.fetch_insults()
+        
+    def update_insults(self):
+        self.option = self.fetch_insults()
 
-    def fetch_insults(ctx):
+    def fetch_insults(self):
         temp = []
         con = psycopg2.connect(
             user=os.getenv('DATABASE_USER'),
@@ -28,7 +31,7 @@ class Bully(commands.Cog):
         return temp
     
 
-    def update_insults(self, insult):
+    def add_insults(self, insult):
         con = psycopg2.connect(
             user=os.getenv('DATABASE_USER'),
             password=os.getenv('DATABASE_PASSWORD'),
@@ -37,7 +40,7 @@ class Bully(commands.Cog):
         )
         cur = con.cursor()
         insults = self.options
-        insults.append(insult)
+        insults.append(''.join([char for char in insult if char != "'"]))
         cur.execute(create_row_query(insult))
         cur.close()
         con.commit()
@@ -47,6 +50,7 @@ class Bully(commands.Cog):
     # bully command
     @commands.command(name='bully', help='Bully the user mentioned after command.')
     async def bully(self, ctx, message):
+        print(self.options)
         await ctx.send(f'{re.findall("<.*>", message)[0]} ' +
                     random.choice(self.options))
 
@@ -77,13 +81,14 @@ class Bully(commands.Cog):
     @commands.command(name='add', help='Adds given insult to the database.')
     async def add(self, ctx):
         insult = "'" + ctx.message.content.lower().split('.add ')[1] + "'"
-        self.update_insults(insult)
+        print(insult)
+        self.add_insults(insult)
         await ctx.send(f'added {insult} to the list of insults...')
 
     #deletes insult from list
     @commands.command(name='delete',
                     help='***list_insult first*** Deletes insult from list.')
-    async def delete(self, ctx, message):
+    async def delete(self, ctx):
         con = psycopg2.connect(
             user=os.getenv('DATABASE_USER'),
             password=os.getenv('DATABASE_PASSWORD'),
@@ -94,7 +99,11 @@ class Bully(commands.Cog):
         cur.execute(f'SELECT insult FROM insults WHERE id = {ctx.message.content.split(" ")[1]}')
         await ctx.send(f'deleting {cur.fetchone()[0]} from insult database...')
         try:
+            cur.execute(f'SELECT insult FROM insults WHERE id = {ctx.message.content.split(" ")[1]}')
+            trash = cur.fetchone()[0]
             cur.execute(delete_rows_query(f"id = {ctx.message.content.split(' ')[1]}"))
+            if trash in self.options:
+                self.options.remove(trash)
         except:
             await ctx.send('an error occured... insult did not get deleted')
         cur.close()
