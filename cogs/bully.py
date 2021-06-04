@@ -50,7 +50,6 @@ class Bully(commands.Cog):
     # bully command
     @commands.command(name='bully', help='Bully the user mentioned after command.')
     async def bully(self, ctx, message):
-        print(self.options)
         await ctx.send(f'{re.findall("<.*>", message)[0]} ' +
                     random.choice(self.options))
 
