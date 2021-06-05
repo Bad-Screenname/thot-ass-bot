@@ -10,8 +10,8 @@ class Voice(commands.Cog):
 
     @commands.command(name='test')
     async def test(self, ctx):
-        os.chdir('..')
-        print(os.listdir('./audio/ussr'))
+        # os.chdir('..')
+        print(os.listdir('/app/audio/ussr'))
     
 #play
     # @commands.command()
