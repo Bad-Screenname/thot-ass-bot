@@ -49,29 +49,29 @@ class Voice(commands.Cog):
     #     os.chdir('./')
 
     #gopnik
-    # @commands.command()
-    # async def gopnik(self, ctx):
-    #   if ctx.author.voice == None:
-    #       await ctx.send('You must be connected to a voice channel...')
-    #   else:
-    #       voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-    #                                         name=str(ctx.author.voice.channel))
-    #       voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-    #       if voice == None:
-    #           await voiceChannel.connect()
-    #           voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-    #       else:
-    #           await ctx.guild.voice_client.move_to(voiceChannel)
+    @commands.command()
+    async def gopnik(self, ctx):
+      if ctx.author.voice == None:
+          await ctx.send('You must be connected to a voice channel...')
+      else:
+          voiceChannel = discord.utils.get(ctx.guild.voice_channels,
+                                            name=str(ctx.author.voice.channel))
+          voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          if voice == None:
+              await voiceChannel.connect()
+              voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          else:
+              await ctx.guild.voice_client.move_to(voiceChannel)
     #   if os.getcwd() != os.getenv('main_path') + '/Gop':
     #       os.chdir(str(os.getenv('main_path') + '/Gop'))
-    #   for file in os.listdir('./audio/ussr'):
-    #       if file.endswith('.mp3'):
-    #         voice.play(discord.FFmpegPCMAudio(file))
-    #   while voice.is_playing():
-    #       pass
-    #   if voice.is_connected():
-    #       await voice.disconnect()
-    #   os.chdir(os.getenv('main_path'))
+      for file in os.listdir('/app/audio/ussr'):
+          if file.endswith('.mp3'):
+            voice.play(discord.FFmpegPCMAudio(file))
+      while voice.is_playing():
+          pass
+      if voice.is_connected():
+          await voice.disconnect()
+      os.chdir(os.getenv('main_path'))
 
 def setup(client):
     client.add_cog(Voice(client))
