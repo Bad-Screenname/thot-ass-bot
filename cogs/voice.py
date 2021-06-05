@@ -71,7 +71,7 @@ class Voice(commands.Cog):
           pass
       if voice.is_connected():
           await voice.disconnect()
-      os.chdir(os.getenv('main_path'))
+    #   os.chdir(os.getenv('main_path'))
 
 def setup(client):
     client.add_cog(Voice(client))
