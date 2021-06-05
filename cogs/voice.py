@@ -9,7 +9,7 @@ class Voice(commands.Cog):
         self.client = client
 
     @commands.command(name='test')
-    async def test(self):
+    async def test(self, ctx):
         print(os.listdir('./ussr'))
     
 #play
