@@ -5,12 +5,10 @@
 #
 import discord
 from discord import utils
-import random
 import re
 import os
 from discord.ext import commands
 import youtube_dl
-import psycopg2
 from queries import *
 
 coin = [':disguised_face:', ':peach:']
@@ -35,47 +33,6 @@ client = commands.Bot(command_prefix='.', intents = discord.Intents.all())
 @client.event
 async def on_ready():
     print(f'logged on as {client.user}!')
-
-#message check features
-@client.listen('on_message')
-async def messages(ctx):
-    #url regex
-    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', ctx.content.lower())
-
-  #checks if bot says 69
-    if ctx.author == client.user:
-        if '69' in ctx.content:
-            temp_list = ctx.content.split(' ')
-            for i in temp_list:
-                if len(re.findall('<.*>', i)) > 0:
-                    temp_list.remove(i)
-            temp_list = ' '.join([str(i) for i in temp_list])
-            if '69' in temp_list:
-                await ctx.channel.send('nice')
-        return
-
-    #checks if user says 69
-    if '69' in ctx.content:
-        if len(urls) >= 1:
-            return
-    else:
-        temp_list = ctx.content.split(' ')
-        for i in temp_list:
-            if len(re.findall('<.*>', i)) > 0:
-                temp_list.remove(i)
-                temp_list = ' '.join([str(i) for i in temp_list])
-                if '69' in temp_list:
-                    await ctx.channel.send('nice')
-
-    #checks if user says fuck you
-    if ctx.content.lower().startswith('fuck you'):
-        for i in range(0, len(re.findall('<.*>', ctx.content))):
-            if i == (len(re.findall('<.*>', ctx.content)) - 1):
-                await ctx.channel.send(f'Yeah, fuck you {re.findall("<.*>", ctx.content)[i]}')
-
-    #checks compliment for bot
-    if 'good bot' in ctx.content.lower():
-        await ctx.channel.send(':relieved:')
 
 # @client.event
 # async def on_voice_state_update(member, before, after):
