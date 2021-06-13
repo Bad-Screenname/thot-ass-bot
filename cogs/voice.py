@@ -63,16 +63,15 @@ class Voice(commands.Cog):
               voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
           else:
               await ctx.guild.voice_client.move_to(voiceChannel)
-    #   if os.getcwd() != os.getenv('main_path') + '/Gop':
-    #       os.chdir(str(os.getenv('main_path') + '/Gop'))
-      for file in os.listdir('./audio/ussr'):
+      os.chdir('./audio/ussr')
+      for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
-            voice.play(discord.FFmpegPCMAudio(str(file)))
+            voice.play(discord.FFmpegPCMAudio(file))
       while voice.is_playing():
           pass
       if voice.is_connected():
           await voice.disconnect()
-    #   os.chdir(os.getenv('main_path'))
+          os.chdir('/app/')
 
 def setup(client):
     client.add_cog(Voice(client))
