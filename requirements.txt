@@ -3,3 +3,4 @@ youtube_dl
 pynacl
 psycopg2
 ffmpeg
+opus
