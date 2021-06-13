@@ -49,6 +49,55 @@ class Voice(commands.Cog):
     #     voice.play(discord.FFmpegPCMAudio('song.mp3'))
     #     os.chdir('./')
 
+    #ussr
+    @commands.command()
+    async def ussr(self, ctx):
+      if ctx.author.voice == None:
+          await ctx.send('You must be connected to a voice channel...')
+      else:
+          voiceChannel = discord.utils.get(ctx.guild.voice_channels,
+                                            name=str(ctx.author.voice.channel))
+          voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          if voice == None:
+              await voiceChannel.connect()
+              voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          else:
+              await ctx.guild.voice_client.move_to(voiceChannel)
+      os.chdir('./audio/ussr')
+      for file in os.listdir(os.getcwd()):
+          if file.endswith('.mp3'):
+            voice.play(discord.FFmpegPCMAudio(file))
+      while voice.is_playing():
+          pass
+      if voice.is_connected():
+          await voice.disconnect()
+          os.chdir('/app/')
+
+
+    #thornberry
+    @commands.command()
+    async def donny(self, ctx):
+      if ctx.author.voice == None:
+          await ctx.send('You must be connected to a voice channel...')
+      else:
+          voiceChannel = discord.utils.get(ctx.guild.voice_channels,
+                                            name=str(ctx.author.voice.channel))
+          voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          if voice == None:
+              await voiceChannel.connect()
+              voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+          else:
+              await ctx.guild.voice_client.move_to(voiceChannel)
+      os.chdir('./audio/thornberry')
+      for file in os.listdir(os.getcwd()):
+          if file.endswith('.mp3'):
+            voice.play(discord.FFmpegPCMAudio(file))
+      while voice.is_playing():
+          pass
+      if voice.is_connected():
+          await voice.disconnect()
+          os.chdir('/app/')
+
     #gopnik
     @commands.command()
     async def gopnik(self, ctx):
@@ -63,7 +112,7 @@ class Voice(commands.Cog):
               voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
           else:
               await ctx.guild.voice_client.move_to(voiceChannel)
-      os.chdir('./audio/ussr')
+      os.chdir('./audio/gopnik')
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
