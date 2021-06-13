@@ -3,6 +3,7 @@ import os
 import youtube_dl
 from discord import utils
 import discord
+import ffmpeg
 
 class Voice(commands.Cog):
     def __init__(self, client):
@@ -64,9 +65,9 @@ class Voice(commands.Cog):
               await ctx.guild.voice_client.move_to(voiceChannel)
     #   if os.getcwd() != os.getenv('main_path') + '/Gop':
     #       os.chdir(str(os.getenv('main_path') + '/Gop'))
-      for file in os.listdir('/app/audio/ussr'):
+      for file in os.listdir('./audio/ussr'):
           if file.endswith('.mp3'):
-            voice.play(discord.FFmpegPCMAudio(file))
+            voice.play(discord.FFmpegPCMAudio(str(file)))
       while voice.is_playing():
           pass
       if voice.is_connected():
