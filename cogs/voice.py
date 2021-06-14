@@ -35,10 +35,10 @@ class Voice(commands.Cog):
             }],
         }
 
-        os.chdir(str('/app/audio/temp mp3/'))
+        os.chdir(str('/app/audio/temp\ mp3/'))
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        for file in os.listdir('/app/audio/temp mp3/'):
+        for file in os.listdir('/app/audio/temp\ mp3/'):
             if file.endswith('.mp3'):
                 os.rename(file, 'song.mp3')
         voice.play(discord.FFmpegPCMAudio('song.mp3'))
