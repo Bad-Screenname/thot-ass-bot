@@ -9,76 +9,76 @@ class Voice(commands.Cog):
     def __init__(self, client):
         self.client = client
     
-#play
-    @commands.command()
-    async def play(self, ctx, url: str):
-        if ctx.author.voice == None:
-            await ctx.send('You must be connected to a voice channel...')
-            return
-        else:
-            voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-                                             name=str(ctx.author.voice.channel))
-            voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-            if voice == None:
-                await voiceChannel.connect()
-                voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-            else:
-                await ctx.guild.voice_client.move_to(voiceChannel)
+# #play
+    # @commands.command()
+#     async def play(self, ctx, url: str):
+#         if ctx.author.voice == None:
+#             await ctx.send('You must be connected to a voice channel...')
+#             return
+#         else:
+#             voiceChannel = discord.utils.get(ctx.guild.voice_channels,
+#                                              name=str(ctx.author.voice.channel))
+#             voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#             if voice == None:
+#                 await voiceChannel.connect()
+#                 voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#             else:
+#                 await ctx.guild.voice_client.move_to(voiceChannel)
 
-        ydl_opts = {
-            'format':
-            'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-        }
+#         ydl_opts = {
+#             'format':
+#             'bestaudio/best',
+#             'postprocessors': [{
+#                 'key': 'FFmpegExtractAudio',
+#                 'preferredcodec': 'mp3',
+#                 'preferredquality': '192',
+#             }],
+#         }
 
-        os.chdir(str('/app/audio/temp_mp3/'))
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-        for file in os.listdir('/app/audio/temp_mp3/'):
-            if file.endswith('.mp3'):
-                os.rename(file, 'song.mp3')
-        voice.play(discord.FFmpegPCMAudio('song.mp3'))
-        while voice.is_connected():
-            if not voice.is_playing():
-                await voice.disconnect()
-                os.chdir('/app/')
+#         os.chdir(str('/app/audio/temp_mp3/'))
+#         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#             ydl.download([url])
+#         for file in os.listdir('/app/audio/temp_mp3/'):
+#             if file.endswith('.mp3'):
+#                 os.rename(file, 'song.mp3')
+#         voice.play(discord.FFmpegPCMAudio('song.mp3'))
+#         while voice.is_connected():
+#             if not voice.is_playing():
+#                 await voice.disconnect()
+#                 os.chdir('/app/')
     
-    #pauses audio
-    @commands.command(name='pause')
-    async def pause(self, ctx):
-        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-        if voice.is_playing():
-            voice.pause()
-        else:
-            await ctx.send('No audio is playing...')
+#     #pauses audio
+#     @commands.command(name='pause')
+#     async def pause(self, ctx):
+#         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#         if voice.is_playing():
+#             voice.pause()
+#         else:
+#             await ctx.send('No audio is playing...')
 
-    #resume
-    @commands.command(name='resume')
-    async def resume(self, ctx):
-        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-        if voice.is_paused():
-            voice.resume()
-        else:
-            await ctx.send('Audio is currently playing...')
+#     #resume
+#     @commands.command(name='resume')
+#     async def resume(self, ctx):
+#         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#         if voice.is_paused():
+#             voice.resume()
+#         else:
+#             await ctx.send('Audio is currently playing...')
 
-    #stop
-    @commands.command()
-    async def stop(self, ctx):
-        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-        voice.stop()
+#     #stop
+#     @commands.command()
+#     async def stop(self, ctx):
+#         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#         voice.stop()
     
-    #disconnect
-    @commands.command()
-    async def leave(self, ctx):
-        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-        if voice == None:
-            await ctx.send("I'm not connected")
-        elif voice.is_connected():
-            await voice.disconnect()
+#     #disconnect
+#     @commands.command()
+#     async def leave(self, ctx):
+#         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+#         if voice == None:
+#             await ctx.send("I'm not connected")
+#         elif voice.is_connected():
+#             await voice.disconnect()
 
     #ussr
     @commands.command(help="National Anthem")
