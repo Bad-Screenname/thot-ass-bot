@@ -130,58 +130,6 @@ async def on_ready():
 #   # print(re.findall('<.*>', ctx.author))
 #   print(re.findall('<.*>', ctx.message.content))
 
-#thornberry
-# @client.command()
-# async def donny(ctx):
-#     sound_byte = []
-#     if ctx.author.voice == None:
-#         await ctx.send('You must be connected to a voice channel...')
-#     else:
-#         voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-#                                          name=str(ctx.author.voice.channel))
-#         voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#         if voice == None:
-#             await voiceChannel.connect()
-#             voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#         else:
-#             await ctx.guild.voice_client.move_to(voiceChannel)
-#     if os.getcwd() != os.getenv('main_path') + '/Thornberry':
-#         os.chdir(str(os.getenv('main_path') + '/Thornberry'))
-#     for file in os.listdir(os.getcwd()):
-#         if file.endswith('.mp3'):
-#             sound_byte.append(file)
-#     voice.play(discord.FFmpegPCMAudio(random.choice(sound_byte)))
-#     while voice.is_playing():
-#         pass
-#     if voice.is_connected():
-#         await voice.disconnect()
-#     os.chdir(os.getenv('main_path'))
-
-#gopnik
-# @client.command()
-# async def gopnik(ctx):
-#   if ctx.author.voice == None:
-#       await ctx.send('You must be connected to a voice channel...')
-#   else:
-#       voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-#                                         name=str(ctx.author.voice.channel))
-#       voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#       if voice == None:
-#           await voiceChannel.connect()
-#           voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#       else:
-#           await ctx.guild.voice_client.move_to(voiceChannel)
-#   if os.getcwd() != os.getenv('main_path') + '/Gop':
-#       os.chdir(str(os.getenv('main_path') + '/Gop'))
-#   for file in os.listdir(os.getcwd()):
-#       if file.endswith('.mp3'):
-#         voice.play(discord.FFmpegPCMAudio(file))
-#   while voice.is_playing():
-#       pass
-#   if voice.is_connected():
-#       await voice.disconnect()
-#   os.chdir(os.getenv('main_path'))
-
 @client.command(hidden=True)
 async def load(ctx, extension):
     client.load_extension(f'cogs.{extension}')

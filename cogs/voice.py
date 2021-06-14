@@ -10,42 +10,75 @@ class Voice(commands.Cog):
         self.client = client
     
 #play
-    # @commands.command()
-    # async def play(self, ctx, url: str):
-    #     if ctx.author.voice == None:
-    #         await ctx.send('You must be connected to a voice channel...')
-    #         return
-    #     else:
-    #         voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-    #                                          name=str(ctx.author.voice.channel))
-    #         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-    #         if voice == None:
-    #             await voiceChannel.connect()
-    #             voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-    #         else:
-    #             await ctx.guild.voice_client.move_to(voiceChannel)
+    @commands.command()
+    async def play(self, ctx, url: str):
+        if ctx.author.voice == None:
+            await ctx.send('You must be connected to a voice channel...')
+            return
+        else:
+            voiceChannel = discord.utils.get(ctx.guild.voice_channels,
+                                             name=str(ctx.author.voice.channel))
+            voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+            if voice == None:
+                await voiceChannel.connect()
+                voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+            else:
+                await ctx.guild.voice_client.move_to(voiceChannel)
 
-    #     ydl_opts = {
-    #         'format':
-    #         'bestaudio/best',
-    #         'postprocessors': [{
-    #             'key': 'FFmpegExtractAudio',
-    #             'preferredcodec': 'mp3',
-    #             'preferredquality': '192',
-    #         }],
-    #     }
+        ydl_opts = {
+            'format':
+            'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+        }
 
-    #     os.chdir(str(os.getenv('main_path') + '/Temp MP3'))
-    #     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    #         ydl.download([url])
-    #     for file in os.listdir(os.getenv('main_path') + '/Temp MP3'):
-    #         if file.endswith('.mp3'):
-    #             os.rename(file, 'song.mp3')
-    #     voice.play(discord.FFmpegPCMAudio('song.mp3'))
-    #     os.chdir('./')
+        os.chdir(str('/app/audio/temp mp3/'))
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        for file in os.listdir('/app/audio/temp mp3/'):
+            if file.endswith('.mp3'):
+                os.rename(file, 'song.mp3')
+        voice.play(discord.FFmpegPCMAudio('song.mp3'))
+        os.chdir('/app/')
+    
+    #pauses audio
+    @commands.command(name='pause')
+    async def pause(self, ctx):
+        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        if voice.is_playing():
+            voice.pause()
+        else:
+            await ctx.send('No audio is playing...')
+
+    #resume
+    @commands.command(name='resume')
+    async def resume(self, ctx):
+        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        if voice.is_paused():
+            voice.resume()
+        else:
+            await ctx.send('Audio is currently playing...')
+
+    #stop
+    @commands.command()
+    async def stop(self, ctx):
+        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        voice.stop()
+    
+    #disconnect
+    @commands.command()
+    async def leave(self, ctx):
+        voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        if voice == None:
+            await ctx.send("I'm not connected")
+        elif voice.is_connected():
+            await voice.disconnect()
 
     #ussr
-    @commands.command()
+    @commands.command(help="National Anthem")
     async def ussr(self, ctx):
       if ctx.author.voice == None:
           await ctx.send('You must be connected to a voice channel...')
@@ -70,7 +103,7 @@ class Voice(commands.Cog):
 
 
     #thornberry
-    @commands.command()
+    @commands.command(help="Donny Thornberry")
     async def donny(self, ctx):
       if ctx.author.voice == None:
           await ctx.send('You must be connected to a voice channel...')
@@ -94,7 +127,7 @@ class Voice(commands.Cog):
           os.chdir('/app/')
 
     #gopnik
-    @commands.command()
+    @commands.command(help="Gopnik by DJ Blyatman")
     async def gopnik(self, ctx):
       if ctx.author.voice == None:
           await ctx.send('You must be connected to a voice channel...')
