@@ -5,7 +5,7 @@ import os
 class Feature(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.msg_client = Client(os.getenv('twilio_sid'), os.get('twilio_token'))
+        self.msg_client = Client(os.getenv('twilio_sid'), os.getenv('twilio_token'))
 
     @commands.command(name='request', help='use this command to ask me to add a new feature')
     async def request(self, ctx):
