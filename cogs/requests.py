@@ -14,6 +14,14 @@ class Feature(commands.Cog):
             from_ = os.getenv('twilio_number'),
             to = os.getenv('my_number')
         )
+    
+    @commands.command(name='bug', help='use this command to report a bug')
+    async def bug(self, ctx):
+        text_msg = self.msg_client.messages.create(
+            body = f'{ctx.author.name} found a bug "{ctx.message.content.split(".request")[1]}"',
+            from_ = os.getenv('twilio_number'),
+            to = os.getenv('my_number')
+        )
 
 def setup(client):
     client.add_cog(Feature(client))
