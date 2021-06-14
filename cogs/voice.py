@@ -42,7 +42,10 @@ class Voice(commands.Cog):
             if file.endswith('.mp3'):
                 os.rename(file, 'song.mp3')
         voice.play(discord.FFmpegPCMAudio('song.mp3'))
-        os.chdir('/app/')
+        while voice.is_connected():
+            if not voice.is_playing():
+                await voice.disconnect()
+                os.chdir('/app/')
     
     #pauses audio
     @commands.command(name='pause')
@@ -95,11 +98,10 @@ class Voice(commands.Cog):
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
-      while voice.is_playing():
-          pass
-      if voice.is_connected():
-          await voice.disconnect()
-          os.chdir('/app/')
+      while voice.is_connected():
+          if not voice.is_playing():
+              await voice.disconnect()
+              os.chdir('/app/')
 
 
     #thornberry
@@ -120,11 +122,10 @@ class Voice(commands.Cog):
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
-      while voice.is_playing():
-          pass
-      if voice.is_connected():
-          await voice.disconnect()
-          os.chdir('/app/')
+      while voice.is_connected():
+          if not voice.is_playing():
+              await voice.disconnect()
+              os.chdir('/app/')
 
     #gopnik
     @commands.command(help="Gopnik by DJ Blyatman")
@@ -144,11 +145,10 @@ class Voice(commands.Cog):
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
-      while voice.is_playing():
-          pass
-      if voice.is_connected():
-          await voice.disconnect()
-          os.chdir('/app/')
+      while voice.is_connected():
+          if not voice.is_playing():
+              await voice.disconnect()
+              os.chdir('/app/')
 
 def setup(client):
     client.add_cog(Voice(client))
