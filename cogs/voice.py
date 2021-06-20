@@ -94,9 +94,9 @@ class Voice(commands.Cog):
                 for file in os.listdir(os.getcwd()):
                     if file.endswith('.mp3'):
                         voiceChannel.play(discord.FFmpegPCMAudio(file))
-                while voice.is_connected():
-                    if not voice.is_playing():
-                        await voice.disconnect()
+                while voiceChannel.is_connected():
+                    if not voiceChannel.is_playing():
+                        await voiceChannel.disconnect()
                 os.chdir('/app/')
         else:
             print('check did not pass')
