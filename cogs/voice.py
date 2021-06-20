@@ -81,26 +81,26 @@ class Voice(commands.Cog):
 #         elif voice.is_connected():
 #             await voice.disconnect()
 
-    @commands.Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
-        print('working')
-        if member.id == 184874380969377792:
-            voice = member.guild.voice_client
+    # @commands.Cog.listener()
+    # async def on_voice_state_update(self, member, before, after):
+    #     print('working')
+    #     if member.id == 184874380969377792:
+    #         voice = member.guild.voice_client
 
-            if before.channel is None and after.channel is not None:
-                voiceChannel = await after.channel.connect()
+    #         if before.channel is None and after.channel is not None:
+    #             voiceChannel = await after.channel.connect()
                 
-                os.chdir('./audio/ussr/')
-                for file in os.listdir(os.getcwd()):
-                    if file.endswith('.mp3'):
-                        voiceChannel.play(discord.FFmpegPCMAudio(file))
-                while voiceChannel.is_connected():
-                    if not voiceChannel.is_playing():
-                        await voiceChannel.disconnect()
-                os.chdir('/app/')
-        else:
-            print('check did not pass')
-            pass
+    #             os.chdir('./audio/ussr/')
+    #             for file in os.listdir(os.getcwd()):
+    #                 if file.endswith('.mp3'):
+    #                     voiceChannel.play(discord.FFmpegPCMAudio(file))
+    #             while voiceChannel.is_connected():
+    #                 if not voiceChannel.is_playing():
+    #                     await voiceChannel.disconnect()
+    #             os.chdir('/app/')
+    #     else:
+    #         print('check did not pass')
+    #         pass
 
     #ussr
     @commands.command(help="National Anthem")
