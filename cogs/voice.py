@@ -95,7 +95,6 @@ class Voice(commands.Cog):
                         voiceChannel.play(discord.FFmpegPCMAudio(file))
                         print('1')
                 while voice.is_connected():
-                    print('2')
                     if not voice.is_playing():
                         print('3')
                         await voice.disconnect()
@@ -103,7 +102,7 @@ class Voice(commands.Cog):
                 os.chdir('/app/')
                 print('5')
         else:
-            print('faield')
+            print('failed')
             pass
 
     #ussr
