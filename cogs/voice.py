@@ -8,6 +8,7 @@ import ffmpeg
 class Voice(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.main_path = '/app/'
     
 # #play
     # @commands.command()
@@ -79,6 +80,25 @@ class Voice(commands.Cog):
 #             await ctx.send("I'm not connected")
 #         elif voice.is_connected():
 #             await voice.disconnect()
+
+    # @client.event
+    async def on_voice_state_update(self, member, before, after):
+        if member.id == 184874380969377792:
+            voice = member.guild.voice_client
+
+            if before.channel is None and after.channel is not None:
+                voiceChannel = await after.channel.connect()
+                
+                os.chdir('./audio/ussr/')
+                for file in os.listdir(os.getcwd()):
+                    if file.endswith('.mp3'):
+                        voiceChannel.play(discord.FFmpegPCMAudio(file))
+                while voice.is_connected():
+                    if not voice.is_playing():
+                        await voice.disconnect()
+                os.chdir('/app/')
+        else:
+            pass
 
     #ussr
     @commands.command(help="National Anthem")

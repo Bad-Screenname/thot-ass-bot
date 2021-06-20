@@ -15,18 +15,6 @@ coin = [':disguised_face:', ':peach:']
 
 special_user = 417772375199711242
 
-#default insultls
-# starter_insults = [
-#     'eats cat shit.',
-#     'is more disappointing than an unsalted pretzel.',
-#     'is impossible to underestimate.',
-#     'wears a mask, but not for covid.',
-#     'has a nugget fetish.',
-#     'is a test tube baby.',
-#     'ass is jealous of the amount of shit that comes out of their mouth.',
-#     'is a troggy.',
-# ]
-
 client = commands.Bot(command_prefix='.', intents = discord.Intents.all())
 
 #bot ready confirmation
@@ -52,90 +40,13 @@ async def on_ready():
 #           await voiceChannel.disconnect()
 #       os.chdir(os.getenv('main_path'))
 
-#play
-# @client.command()
-# async def play(ctx, url: str):
-#     if ctx.author.voice == None:
-#         await ctx.send('You must be connected to a voice channel...')
-#         return
-#     else:
-#         voiceChannel = discord.utils.get(ctx.guild.voice_channels,
-#                                          name=str(ctx.author.voice.channel))
-#         voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#         if voice == None:
-#             await voiceChannel.connect()
-#             voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#         else:
-#             await ctx.guild.voice_client.move_to(voiceChannel)
-
-#     ydl_opts = {
-#         'format':
-#         'bestaudio/best',
-#         'postprocessors': [{
-#             'key': 'FFmpegExtractAudio',
-#             'preferredcodec': 'mp3',
-#             'preferredquality': '192',
-#         }],
-#     }
-
-#     os.chdir(str(os.getenv('main_path') + '/Temp MP3'))
-#     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-#         ydl.download([url])
-#     for file in os.listdir(os.getenv('main_path') + '/Temp MP3'):
-#         if file.endswith('.mp3'):
-#             os.rename(file, 'song.mp3')
-#     voice.play(discord.FFmpegPCMAudio('song.mp3'))
-#     os.chdir('./')
-
-
-#pauses audio
-# @client.command(name='pause')
-# async def pause(ctx):
-#     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#     if voice.is_playing():
-#         voice.pause()
-#     else:
-#         await ctx.send('No audio is playing...')
-
-
-#resume
-# @client.command(name='resume')
-# async def resume(ctx):
-#     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#     if voice.is_paused():
-#         voice.resume()
-#     else:
-#         await ctx.send('Audio is currently playing...')
-
-
-#stop
-# @client.command()
-# async def stop(ctx):
-#     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#     voice.stop()
-
-
-#disconnect
-# @client.command()
-# async def leave(ctx):
-#     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#     if voice == None:
-#         await ctx.send("I'm not connected")
-#     elif voice.is_connected():
-#         await voice.disconnect()
-
-
-# @client.command()
-# async def test(ctx):
-#   # print(re.findall('<.*>', ctx.author))
-#   print(re.findall('<.*>', ctx.message.content))
 
 @client.command(hidden=True)
-async def load(ctx, extension):
+async def load(extension):
     client.load_extension(f'cogs.{extension}')
 
 @client.command(hidden=True)
-async def unload(ctx, extension):
+async def unload(extension):
     client.unload_extension(f'cogs.{extension}')
 
 @client.command(hidden=True)

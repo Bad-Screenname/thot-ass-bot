@@ -9,7 +9,7 @@ class Bully(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.options = self.fetch_insults()
-        
+    
     def update_insults(self):
         self.option = self.fetch_insults()
 
