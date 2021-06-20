@@ -82,13 +82,13 @@ class Voice(commands.Cog):
 #             await voice.disconnect()
 
     @commands.Cog.listener()
-    async def on_voice_state_update(self, ctx, member, before, after):
+    async def on_voice_state_update(self, member, before, after, ctx):
         if member.id == 184874380969377792:
 
             if before.channel is None and after.channel is not None:
                 voiceChannel = await after.channel.connect()
                 voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
-                os.chdir('./audio/ussr/')
+                os.chdir('/app/audio/ussr/')
                 for file in os.listdir(os.getcwd()):
                     if file.endswith('.mp3'):
                         voiceChannel.play(discord.FFmpegPCMAudio(file))
