@@ -85,16 +85,18 @@ class Voice(commands.Cog):
     async def on_voice_state_update(self, member, before, after):
         print('working')
         if member.id == 184874380969377792:
+            voice = member.guild.voice_client
+
             if before.channel is None and after.channel is not None:
                 voiceChannel = await after.channel.connect()
-                voice = member.guild.voice_client
-                os.chdir('/app/audio/ussr/')
+                
+                os.chdir('./audio/ussr/')
                 for file in os.listdir(os.getcwd()):
                     if file.endswith('.mp3'):
                         voiceChannel.play(discord.FFmpegPCMAudio(file))
-                while voiceChannel.is_connected():
-                    if not voiceChannel.is_playing():
-                        await voiceChannel.disconnect()
+                while voice.is_connected():
+                    if not voice.is_playing():
+                        await voice.disconnect()
                 os.chdir('/app/')
         else:
             print('check did not pass')
@@ -114,7 +116,7 @@ class Voice(commands.Cog):
               voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
           else:
               await ctx.guild.voice_client.move_to(voiceChannel)
-      os.chdir('/app/audio/ussr')
+      os.chdir('./audio/ussr')
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
@@ -138,7 +140,7 @@ class Voice(commands.Cog):
               voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
           else:
               await ctx.guild.voice_client.move_to(voiceChannel)
-      os.chdir('/app/audio/thornberry')
+      os.chdir('./audio/thornberry')
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
@@ -161,7 +163,7 @@ class Voice(commands.Cog):
               voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
           else:
               await ctx.guild.voice_client.move_to(voiceChannel)
-      os.chdir('/app/audio/gopnik')
+      os.chdir('./audio/gopnik')
       for file in os.listdir(os.getcwd()):
           if file.endswith('.mp3'):
             voice.play(discord.FFmpegPCMAudio(file))
