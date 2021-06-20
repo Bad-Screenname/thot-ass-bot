@@ -83,7 +83,7 @@ class Voice(commands.Cog):
 
     # @client.event
     async def on_voice_state_update(self, member, before, after):
-        if member.id == 184874380969377792:
+        if member.id == '184874380969377792':
             voice = member.guild.voice_client
 
             if before.channel is None and after.channel is not None:
