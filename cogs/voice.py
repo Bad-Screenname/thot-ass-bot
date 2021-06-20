@@ -81,10 +81,10 @@ class Voice(commands.Cog):
 #         elif voice.is_connected():
 #             await voice.disconnect()
 
-    # @client.event
+    @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         print('working')
-        if member.id == '184874380969377792':
+        if member.id == 184874380969377792:
             print('check passed')
             voice = member.guild.voice_client
 
