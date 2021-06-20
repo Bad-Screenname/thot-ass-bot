@@ -83,7 +83,9 @@ class Voice(commands.Cog):
 
     # @client.event
     async def on_voice_state_update(self, member, before, after):
+        print('working')
         if member.id == '184874380969377792':
+            print('check passed')
             voice = member.guild.voice_client
 
             if before.channel is None and after.channel is not None:
@@ -98,6 +100,7 @@ class Voice(commands.Cog):
                         await voice.disconnect()
                 os.chdir('/app/')
         else:
+            print('check did not pass')
             pass
 
     #ussr
